@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Core.BookmarkImport;
+using DataAccess.Repositories;
+using DataAccess.Infrastructure;
+using System.Linq;
 
 namespace ConsoleApp
 {
@@ -11,10 +10,27 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            var path = @"D:\Projects\BMS\Core.Tests\ImportTests\TestFiles\chromeBookmark.html";
-            var importer = new HtmlBookmarkImporter();
-            var list = importer.Import(path);
-           
+            TestDb();
+
+        }
+
+        private static void TestImport()
+        {
+        }
+
+        public static void TestDb()
+        {
+            var bms = new BookmarkRepository(new DatabaseFactory()).GetAll().First();
+            bms.Name.ToConsole();
+            bms.URL.ToConsole();
+        }
+    }
+
+    public static class Ext
+    {
+        public static void ToConsole(this object obj)
+        {
+            Console.WriteLine(obj.ToString());
         }
     }
 }
